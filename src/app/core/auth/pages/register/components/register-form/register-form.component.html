@@ -1,0 +1,43 @@
+<form>
+  <div class="flex flex-col boder border-black">
+    <label class="font-medium text-sm text-olive"
+      >Ingresa tu correo electrónico</label
+    >
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Correo" />
+    </mat-form-field>
+    <label class="font-medium text-sm text-olive"
+      >Ingresa tu nombre de usuario</label
+    >
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Usuario" />
+    </mat-form-field>
+    <label class="font-medium text-sm text-olive">Ingresa tu contraseña</label>
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        [type]="hide() ? 'password' : 'text'"
+        placeholder="Contraseña"
+      />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()"
+      >
+        <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="flex flex-col text-left justify-center gap-4">
+    <a class="text-erieBlack hover:text-teal text-sm" routerLink="/login"
+      >¿Iniciar Sesión?</a
+    >
+    <button mat-fab extended class="submit-form-btn">
+      <mat-icon>thumb_up</mat-icon>
+      Registrarse
+    </button>
+  </div>
+</form>
