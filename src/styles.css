@@ -4,8 +4,27 @@
 html,
 body {
   height: 100%;
+  background-color: #f7f9fb;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.submit-form-btn {
+  color: #ffffff !important;
+  background-color: #5085a5 !important;
+}
+.submit-form-btn:hover {
+  background-color: #31708e !important;
+}
+.submit-form-btn :active {
+  background-color: transparent !important;
+}
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: #222222 !important;
 }

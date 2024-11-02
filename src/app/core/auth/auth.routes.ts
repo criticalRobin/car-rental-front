@@ -1,9 +1,18 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
 
 export const authRoutes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    loadComponent: () =>
+      import('@core/auth/pages/login/login.component').then(
+        (c) => c.LoginComponent
+      ),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('@core/auth/pages/register/register.component').then(
+        (c) => c.RegisterComponent
+      ),
   },
 ];
