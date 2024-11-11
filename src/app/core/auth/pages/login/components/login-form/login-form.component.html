@@ -1,12 +1,14 @@
 <form>
   <div class="flex flex-col boder border-black">
-    <label class="font-medium text-sm text-olive"
+    <label class="font-medium text-sm text-redViolet"
       >Ingresa tu nombre de usuario</label
     >
     <mat-form-field appearance="outline">
       <input matInput placeholder="Usuario" />
     </mat-form-field>
-    <label class="font-medium text-sm text-olive">Ingresa tu contraseña</label>
+    <label class="font-medium text-sm text-redViolet"
+      >Ingresa tu contraseña</label
+    >
     <mat-form-field appearance="outline">
       <input
         matInput
@@ -27,11 +29,11 @@
   </div>
   <div class="flex flex-col justify-center gap-4">
     <div class="flex flex-row justify-between">
-      <a class="text-erieBlack hover:text-teal text-sm" href="#"
+      <a class="text-erieBlack hover:text-redViolet text-sm" href="#"
         >¿Olvidaste tu contraseña?</a
       >
       <a
-        class="text-erieBlack hover:text-teal text-sm"
+        class="text-erieBlack hover:text-redViolet text-sm"
         [routerLink]="['/register']"
         >Registrarse</a
       >

@@ -4,18 +4,21 @@
 html,
 body {
   height: 100%;
-  background-color: #f7f9fb;
+  background-color: #ffffff !important;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #ffffff !important;
 }
 .submit-form-btn {
   color: #ffffff !important;
-  background-color: #5085a5 !important;
+  background-color: #c53678 !important;
+  box-shadow: none !important;
 }
 .submit-form-btn:hover {
-  background-color: #31708e !important;
+  background-color: #222222 !important;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 .submit-form-btn :active {
   background-color: transparent !important;
