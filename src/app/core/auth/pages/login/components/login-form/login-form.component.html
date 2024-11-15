@@ -1,10 +1,15 @@
-<form>
+<form [formGroup]="this.loginForm" (ngSubmit)="this.onSubmit()">
   <div class="flex flex-col boder border-black">
     <label class="font-medium text-sm text-redViolet"
-      >Ingresa tu nombre de usuario</label
+      >Ingresa tu nombre de correo</label
     >
     <mat-form-field appearance="outline">
-      <input matInput placeholder="Usuario" />
+      <input
+        matInput
+        type="email"
+        formControlName="email"
+        placeholder="Correo"
+      />
     </mat-form-field>
     <label class="font-medium text-sm text-redViolet"
       >Ingresa tu contraseña</label
@@ -12,6 +17,7 @@
     <mat-form-field appearance="outline">
       <input
         matInput
+        formControlName="password"
         [type]="hide() ? 'password' : 'text'"
         placeholder="Contraseña"
       />
@@ -38,7 +44,12 @@
         >Registrarse</a
       >
     </div>
-    <button mat-fab extended class="submit-form-btn">
+    <button
+      mat-fab
+      extended
+      class="submit-form-btn"
+      [disabled]="!this.loginForm.valid"
+    >
       <mat-icon>arrow_forward</mat-icon>
       Iniciar Sesión
     </button>
