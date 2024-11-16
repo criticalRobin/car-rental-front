@@ -4,8 +4,30 @@
 html,
 body {
   height: 100%;
+  background-color: #ffffff !important;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #ffffff !important;
+}
+.submit-form-btn {
+  color: #ffffff !important;
+  background-color: #c53678 !important;
+  box-shadow: none !important;
+}
+.submit-form-btn:hover {
+  background-color: #222222 !important;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+.submit-form-btn :active {
+  background-color: transparent !important;
+}
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: #222222 !important;
 }
