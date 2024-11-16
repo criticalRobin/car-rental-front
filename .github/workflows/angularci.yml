@@ -3,9 +3,9 @@ name: Angular Build
 # {1}
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [ "main" ]
 
 jobs:
   angular:
@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         node-version: [20]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
       # {2}
       - name: Checkout the source code
