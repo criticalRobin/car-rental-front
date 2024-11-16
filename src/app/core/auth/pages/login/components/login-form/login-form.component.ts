@@ -18,6 +18,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '@core/auth/services/auth.service';
 
 const MATERIAL = [
   MatFormFieldModule,
@@ -36,6 +37,7 @@ const MATERIAL = [
 })
 export class LoginFormComponent {
   private readonly loginSrv: LoginService = inject(LoginService);
+  private readonly authSrv: AuthService = inject(AuthService);
 
   protected hide: WritableSignal<boolean> = signal(true);
   protected loginForm: FormGroup = new FormGroup({
@@ -54,6 +56,7 @@ export class LoginFormComponent {
     this.loginSrv.login(loginData).subscribe({
       next: (res) => {
         console.log(res);
+        this.authSrv.saveLoggedUserInLocalStorage(res);
       },
       error: (err) => {
         console.error(err);

@@ -1,15 +1,10 @@
 <form [formGroup]="this.loginForm" (ngSubmit)="this.onSubmit()">
   <div class="flex flex-col boder border-black">
     <label class="font-medium text-sm text-redViolet"
-      >Ingresa tu nombre de correo</label
+      >Ingresa tu correo electrónico</label
     >
     <mat-form-field appearance="outline">
-      <input
-        matInput
-        type="email"
-        formControlName="email"
-        placeholder="Correo"
-      />
+      <input matInput formControlName="email" placeholder="Correo" />
     </mat-form-field>
     <label class="font-medium text-sm text-redViolet"
       >Ingresa tu contraseña</label
