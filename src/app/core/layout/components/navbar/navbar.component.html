@@ -1,0 +1,31 @@
+<mat-toolbar
+  class="flex flex-row justify-between nav-bar nav-bar-padding nav-bar-height"
+>
+  <img
+    src="images/logo.svg"
+    alt="cargo-logo"
+    class="w-36 h-full object-contain"
+  />
+  <div>
+    <ul class="flex flex-row h-full gap-x-6 justify-between">
+      @for (item of this.navigationItems; track $index) {
+      <li>
+        <a
+          [routerLink]="[item.route]"
+          class="text-lg text-softWhite flex items-center hover:text-redViolet transition-all duration-300 ease-in-out"
+        >
+          <mat-icon class="text-base">{{ item.icon }}</mat-icon>
+          {{ item.title }}
+        </a>
+      </li>
+      }
+    </ul>
+  </div>
+  <a
+    (click)="this.logout()"
+    class="text-lg text-softWhite flex items-center hover:text-redViolet transition-all duration-300 ease-in-out cursor-pointer"
+  >
+    <mat-icon class="text-base">{{ this.logoutItem.icon }}</mat-icon>
+    {{ this.logoutItem.title }}
+  </a>
+</mat-toolbar>

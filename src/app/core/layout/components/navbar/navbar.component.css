@@ -1,0 +1,13 @@
+.nav-bar {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.nav-bar-padding {
+  padding-left: 14rem !important;
+  padding-right: 14rem !important;
+}
+
+.nav-bar-height {
+  height: 6rem !important;
+}

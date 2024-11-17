@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { ILoginRequest } from '../../models/login.interface';
 import {
@@ -38,6 +38,7 @@ const MATERIAL = [
 export class LoginFormComponent {
   private readonly loginSrv: LoginService = inject(LoginService);
   private readonly authSrv: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
 
   protected hide: WritableSignal<boolean> = signal(true);
   protected loginForm: FormGroup = new FormGroup({
@@ -55,8 +56,17 @@ export class LoginFormComponent {
 
     this.loginSrv.login(loginData).subscribe({
       next: (res) => {
-        console.log(res);
         this.authSrv.saveLoggedUserInLocalStorage(res);
+        const { role } = this.authSrv.getLoggedUserFromLocalStorage();
+
+        if (role === 'ADMIN') {
+          // Aqui redireccionar a la ruta que corresponda
+          this.router.navigate(['/admin']);
+        }
+
+        if (role === 'CLIENT') {
+          this.router.navigate(['/catalog']);
+        }
       },
       error: (err) => {
         console.error(err);
