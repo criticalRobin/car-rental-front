@@ -17,15 +17,10 @@ export class RoleGuard implements CanActivate {
   canActivate(): boolean {
     const role: string = this.loggedUser.role;
 
-    if (role !== 'CLIENTE') {
-      if (role === 'ADMIN') {
-        this.router.navigate(['/admin']);
-      } else {
-        this.router.navigate(['/employee']);
-      }
+    if (role === 'ADMIN') {
       return true;
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(['/catalog']);
       return false;
     }
   }
