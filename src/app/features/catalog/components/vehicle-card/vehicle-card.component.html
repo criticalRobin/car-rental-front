@@ -1,0 +1,82 @@
+<div class="flex flex-row px-2 py-2 rounded-lg border border-gray-200">
+  <div class="flex flex-col w-1/3">
+    @if (this.vehicle().images.length > 0) {
+    <img
+      [src]="this.vehicle().images[0].imageUrl"
+      alt="vehicle"
+      class="rounded-lg w-full h-full object-cover"
+    />
+    }@else {
+    <img
+      src="images/honda.jpg"
+      alt="vehicle"
+      class="rounded-lg w-full h-full object-cover"
+    />
+    }
+  </div>
+  <div class="flex flex-col w-2/3 px-4">
+    <div class="flex flex-row items-center align-middle mb-2">
+      <span class="font-medium text-2xl text-erieBlack"
+        >{{ this.vehicle().brand }} {{ this.vehicle().model }}
+      </span>
+    </div>
+    <div class="flex flex-row gap-28">
+      <div class="flex flex-col gap-2">
+        <span
+          class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+          ><mat-icon>drive_eta</mat-icon> {{ this.vehicle().type }}
+        </span>
+        <span
+          class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+          ><mat-icon>settings</mat-icon> {{ this.vehicle().transmissionType }}
+        </span>
+      </div>
+      <div class="flex flex-col gap-2">
+        <span
+          class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+          ><mat-icon>airline_seat_recline_extra</mat-icon>
+          {{ this.vehicle().numberOfDoors }} puertas
+        </span>
+        <span
+          class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+          ><mat-icon>local_gas_station</mat-icon> {{ this.vehicle().fuelType }}
+        </span>
+      </div>
+    </div>
+    <div class="flex flex-row mt-2 gap-28">
+      <div class="flex flex-row gap-36">
+        <span
+          class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+          ><mat-icon>hot_tub</mat-icon> Aire:
+          {{ this.vehicle().airConditioning ? "Sí" : "No" }}
+        </span>
+      </div>
+    </div>
+    <div class="flex flex-row justify-between mt-3">
+      <div class="flex flex-col">
+        <span class="font-normal text-sm text-sunsetOrange"
+          >Dirección: {{ this.vehicle().location }}</span
+        >
+        <span class="font-normal text-xs text-erieBlack"
+          >{{ this.vehicle().mileage }} km</span
+        >
+        <span class="font-normal text-xs text-erieBlack">{{
+          this.vehicle().acquisitionDate
+        }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-normal text-xs text-erieBlack">Tarifa diaria:</span>
+        <span class="font-semibold text-2xl text-erieBlack"
+          >${{ this.vehicle().dailyRate }}</span
+        >
+        <span class="font-normal text-xs text-redViolet"
+          >Cancelación gratis</span
+        >
+      </div>
+    </div>
+    <button mat-fab extended class="submit-form-btn mt-1">
+      <mat-icon>done_all</mat-icon>
+      Ver Detalles
+    </button>
+  </div>
+</div>
