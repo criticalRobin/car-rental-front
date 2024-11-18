@@ -1,1 +1,21 @@
-<app-vehicle-card [vehicle]="this.vehicle"/>
+<div class="flex flex-row gap-8">
+  <app-filter
+    (brandChanged)="this.onBrandChange($event)"
+    (minRateChanged)="this.onMinRateChange($event)"
+    (maxRateChanged)="this.onMaxRateChange($event)"
+    (airConditioningChanged)="this.onAirConditioningChange($event)"
+    (numberOfDoorsChanged)="this.onNumberOfDoorsChange($event)"
+    (fuelTypeChanged)="this.onFuelTypeChange($event)"
+    (transmissionTypeChanged)="this.onTransmissionTypeChange($event)"
+    (cleanedFiltersEvent)="this.onCleanedFilters()"
+    class="w-1/3"
+  />
+  <div class="flex flex-col w-2/3">
+    <span class="mb-4 text-xl font-medium text-sunsetOrange"
+      >{{ this.filteredCatalog.length }} carros disponibles</span
+    >
+    @for (vehicle of this.filteredCatalog; track $index) {
+    <app-vehicle-card [vehicle]="vehicle" class="mb-4" />
+    }
+  </div>
+</div>

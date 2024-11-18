@@ -1,6 +1,3 @@
-import { EngineType } from '../enums/engine-type.enum';
-import { Transmission } from './transmission.enum';
-
 export interface ICatalogVehicle {
   vehicleId: number;
   brand: string;
@@ -13,11 +10,14 @@ export interface ICatalogVehicle {
   location: string;
   type: string;
   dailyRate: number;
-  airConditioning?: boolean;
-  doors?: number;
-  engineType?: EngineType;
-  transmission?: Transmission;
-  passengers?: number;
-  bags?: number;
-  images: string[];
+  images: IImage[];
+  airConditioning: boolean;
+  numberOfDoors: number;
+  fuelType: string;
+  transmissionType: string;
+}
+
+interface IImage {
+  imageId: number;
+  imageUrl: string;
 }

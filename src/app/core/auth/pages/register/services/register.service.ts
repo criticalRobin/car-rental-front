@@ -13,7 +13,7 @@ export class RegisterService {
   private readonly http: HttpClient = inject(HttpClient);
 
   register(registerData: IRegisterRequest): Observable<IUser> {
-    const registerUrl: string = `${this.baseUrl}/auth/register`;
+    const registerUrl: string = `${this.baseUrl}/users`;
     const response: Observable<IUser> = this.http.post<IUser>(
       registerUrl,
       registerData

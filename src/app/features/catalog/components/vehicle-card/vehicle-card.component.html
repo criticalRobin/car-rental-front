@@ -1,13 +1,21 @@
-<div class="flex flex-row px-2 py-4 rounded-lg border border-gray-200">
+<div class="flex flex-row px-2 py-2 rounded-lg border border-gray-200">
   <div class="flex flex-col w-1/3">
     @if (this.vehicle().images.length > 0) {
-    <img [src]="this.vehicle().images[0]" alt="vehicle" class="rounded-lg" />
+    <img
+      [src]="this.vehicle().images[0].imageUrl"
+      alt="vehicle"
+      class="rounded-lg w-full h-full object-cover"
+    />
     }@else {
-    <img src="images/honda.jpg" alt="vehicle" class="rounded-lg" />
+    <img
+      src="images/honda.jpg"
+      alt="vehicle"
+      class="rounded-lg w-full h-full object-cover"
+    />
     }
   </div>
-  <div class="flex flex-col w-2/3 p-4">
-    <div class="flex flex-row items-center align-middle mb-4">
+  <div class="flex flex-col w-2/3 px-4">
+    <div class="flex flex-row items-center align-middle mb-2">
       <span class="font-medium text-2xl text-erieBlack"
         >{{ this.vehicle().brand }} {{ this.vehicle().model }}
       </span>
@@ -20,17 +28,18 @@
         </span>
         <span
           class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
-          ><mat-icon>drive_eta</mat-icon> Automática
+          ><mat-icon>drive_eta</mat-icon> {{ this.vehicle().transmissionType }}
         </span>
       </div>
       <div class="flex flex-col gap-2">
         <span
           class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
-          ><mat-icon>drive_eta</mat-icon> 5 asientos
+          ><mat-icon>drive_eta</mat-icon>
+          {{ this.vehicle().numberOfDoors }} puertas
         </span>
         <span
           class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
-          ><mat-icon>drive_eta</mat-icon> Híbrido
+          ><mat-icon>drive_eta</mat-icon> {{ this.vehicle().fuelType }}
         </span>
       </div>
     </div>
@@ -38,7 +47,8 @@
       <div class="flex flex-row gap-36">
         <span
           class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
-          ><mat-icon>drive_eta</mat-icon> Aire: Si
+          ><mat-icon>drive_eta</mat-icon> Aire:
+          {{ this.vehicle().airConditioning ? "Sí" : "No" }}
         </span>
       </div>
     </div>
@@ -64,7 +74,7 @@
         >
       </div>
     </div>
-    <button mat-fab extended class="submit-form-btn mt-4">
+    <button mat-fab extended class="submit-form-btn mt-1">
       <mat-icon>arrow_forward</mat-icon>
       Ver Detalles
     </button>

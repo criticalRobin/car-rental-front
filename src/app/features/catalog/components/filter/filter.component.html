@@ -1,1 +1,93 @@
-<p>filter works!</p>
+<div class="border border-gray-200 rounded-lg px-2">
+  <div class="flex flex-row justify-between mb-3">
+    <span class="text-erieBlack text-xl font-medium">Filtros</span>
+    <span
+      (click)="this.cleanFilters()"
+      class="text-sunsetOrange hover:text-erieBlack transition-all duration-300 ease-in-out text-xs font-medium mt-1 cursor-pointer"
+      >Limpiar Filtros</span
+    >
+  </div>
+  <div class="flex flex-col">
+    <label class="font-medium text-sm text-redViolet mb-1">Marca</label>
+    <mat-form-field appearance="outline" class="small">
+      <input
+        [(ngModel)]="this.selectedBrand"
+        matInput
+        placeholder="Marca"
+        (input)="this.onBrandChange()"
+      />
+    </mat-form-field>
+  </div>
+  <div class="flex flex-col">
+    <label class="font-medium text-sm text-redViolet mb-1">Tarifas</label>
+    <div class="flex flex-row justify-between gap-3">
+      <mat-form-field appearance="outline" class="small">
+        <input
+          [(ngModel)]="this.minRate"
+          matInput
+          type="number"
+          (input)="this.onMinRateChange()"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="small">
+        <input
+          [(ngModel)]="this.maxRate"
+          matInput
+          type="number"
+          (input)="this.onMaxRateChange()"
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex flex-col">
+      <label class="font-medium text-sm text-redViolet mb-1"
+        >Aire Acondicionado</label
+      >
+      <mat-radio-group
+        [(ngModel)]="this.airConditioning"
+        (change)="this.onAirConditioningChange()"
+      >
+        <mat-radio-button [value]="true">Sí</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="flex flex-col mt-2">
+      <label class="font-medium text-sm text-redViolet mb-1">Puertas</label>
+      <mat-form-field appearance="outline" class="small">
+        <input
+          [(ngModel)]="this.numberOfDoors"
+          matInput
+          type="number"
+          (input)="this.onNumberOfDoorsChange()"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <label class="font-medium text-sm text-redViolet mb-1"
+      >Tipo Combustible</label
+    >
+    <mat-radio-group
+      [(ngModel)]="this.fuelType"
+      (change)="this.onFuelTypeChange()"
+    >
+      @for (fuel of this.fuelTypes; track fuel) {
+      <mat-radio-button [value]="fuel">{{ fuel }}</mat-radio-button>
+      }
+    </mat-radio-group>
+  </div>
+  <div class="flex flex-col mt-2">
+    <label class="font-medium text-sm text-redViolet mb-1"
+      >Tipo Transmisión</label
+    >
+    <mat-radio-group
+      [(ngModel)]="this.transmissionType"
+      (change)="this.onTransmissionTypeChange()"
+    >
+      @for (transmission of this.transmissionTypes; track transmission) {
+      <mat-radio-button [value]="transmission">{{
+        transmission
+      }}</mat-radio-button>
+      }
+    </mat-radio-group>
+  </div>
+</div>
