@@ -31,3 +31,14 @@ body {
   .mdc-notched-outline__trailing {
   border-color: #222222 !important;
 }
+
+mat-tab-header {
+  &.mat-mdc-tab-header {
+    --mdc-secondary-navigation-tab-container-height: 80px;
+    background-color: #ffffff !important;
+  }
+}
+
+.mat-mdc-tab-active .mat-mdc-tab-indicator {
+  background-color: orange !important;
+}
