@@ -40,6 +40,7 @@ export class NavbarComponent {
       items = [
         { title: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
         { title: 'Vehiculos', icon: 'directions_car', route: '/vehicles' },
+        { title: 'Tipos Vehiculos', icon: 'directions_car', route: '/types-vehicles' },
         { title: 'Reservas', icon: 'person_pin', route: '/settings' },
         { title: 'Facturas', icon: 'note_add', route: '/bills' },
         { title: 'Usuarios', icon: 'group', route: '/users' },

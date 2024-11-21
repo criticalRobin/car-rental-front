@@ -1,0 +1,133 @@
+.vehicle-table th.custom-header {
+    background-color: #222222; 
+    color: white;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    border-bottom: 2px solid #e0e0e0; 
+  }
+  
+  .vehicle-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #424242;
+    font-size: 14px;
+  }
+  
+  .action-button {
+    font-size: 12px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin-right: 8px;
+    background-color: transparent;
+    color: white !important;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .image-button{
+    background-color: #4CAF50;
+  }
+  
+  .edit-button {
+    background-color: #FF5841; 
+  }
+  
+  .delete-button {
+    background-color: #C53678; 
+  }
+  
+  .image-button:hover{
+    background-color: #3e8e41;
+  }
+  
+  .edit-button:hover {
+    background-color: #e94e3c; 
+  }
+  
+  .delete-button:hover {
+    background-color: #b03068; 
+  }
+  
+  .add-vehicle-button {
+    background-color: #222222;
+    color: white !important; 
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .add-vehicle-button:hover {
+    background-color: #333333; 
+  }
+  
+  .vehicle-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .vehicle-table tr:hover {
+    background-color: #e3f2fd;
+    cursor: pointer;
+  }
+  
+  .vehicle-table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden; 
+    margin-top: 20px;
+    align-items: center; 
+  }
+  
+  .paginator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+    gap: 16px;
+    font-size: 14px;
+    color: #424242;
+  }
+  
+  .table-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  button:disabled {
+    color: #bdbdbd;
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #616161;
+    margin-bottom: 10px;
+  }
+  
+  .vehicle-table img {
+    border-radius: 5px;
+    object-fit: cover;
+  }
+  
+  .vehicle-table td.mat-column-actions {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 8px; 
+  }
+  
