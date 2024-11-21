@@ -1,6 +1,13 @@
-<div class="flex flex-row">
-  <div class="w-2/3">
-    <app-galery [images]="this.images" />
+<div>
+  <span class="font-medium text-3xl text-redViolet"
+    >{{ this.vehicle?.brand }} {{ this.vehicle?.model }}</span
+  >
+  <div class="flex flex-row gap-6">
+    <div class="w-2/3">
+      <app-galery [images]="this.images" />
+    </div>
+    <div class="w-1/3 border border-gray-200 rounded-lg">
+      <app-detail-card [vehicle]="this.vehicle" />
+    </div>
   </div>
-  <div class="w-1/3">adadsads</div>
 </div>

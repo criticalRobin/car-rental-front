@@ -1,0 +1,72 @@
+<div class="px-4 py-4">
+  <div class="flex flex-row items-center align-middle mb-2">
+    <span class="font-medium text-2xl text-sunsetOrange"
+      >Detalles del Vehiculo
+    </span>
+  </div>
+  <div class="flex flex-col gap-2">
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>aspect_ratio</mat-icon>
+      <span class="ml-1 mr-1">Placa: </span>
+      {{ this.vehicle()?.licensePlate }}
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>drive_eta</mat-icon>
+      <span class="ml-1 mr-1">Categoría: </span>
+      {{ this.vehicle()?.type }}
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>settings</mat-icon><span class="ml-1 mr-1">Transmisión: </span>
+      {{ this.vehicle()?.transmissionType }}
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>airline_seat_recline_extra</mat-icon>
+      <span class="ml-1 mr-1">Número de Puertas: </span
+      >{{ this.vehicle()?.numberOfDoors }}
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>local_gas_station</mat-icon
+      ><span class="ml-1 mr-1">Combustión: </span>
+      {{ this.vehicle()?.fuelType }}
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>hot_tub</mat-icon>
+      <span class="ml-1 mr-1">Aire Acondicionado: </span>
+      {{ this.vehicle()?.airConditioning ? "Sí" : "No" }}
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>place</mat-icon>
+      <span class="ml-1 mr-1">Ubicación: </span>
+      {{ this.vehicle()?.location }}
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>swap_calls</mat-icon>
+      <span class="ml-1 mr-1">Kilometraje: </span>
+      {{ this.vehicle()?.mileage }} km
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>calendar_today</mat-icon>
+      <span class="ml-1 mr-1">Fecha de Adquisición: </span>
+      {{ this.vehicle()?.acquisitionDate }}
+    </span>
+    <span
+      class="flex flex-row align-middle items-center font-normal text-sm text-erieBlack"
+      ><mat-icon>attach_money</mat-icon>
+      <span class="ml-1 mr-1">Tarifa Diaria: </span>
+      ${{ this.vehicle()?.dailyRate }}
+    </span>
+  </div>
+  <button mat-fab extended class="submit-form-btn mt-4" style="width: 100%">
+    <mat-icon>done_all</mat-icon>
+    Alquilar
+  </button>
+</div>
