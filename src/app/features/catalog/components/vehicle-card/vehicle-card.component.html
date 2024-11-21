@@ -74,8 +74,13 @@
         >
       </div>
     </div>
-    <button mat-fab extended class="submit-form-btn mt-1">
-      <mat-icon>done_all</mat-icon>
+    <button
+      (click)="this.redirectToVehicleDetail(this.vehicle())"
+      mat-fab
+      extended
+      class="submit-form-btn mt-1"
+    >
+      <mat-icon>remove_red_eye</mat-icon>
       Ver Detalles
     </button>
   </div>

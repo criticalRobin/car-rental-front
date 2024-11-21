@@ -1,0 +1,10 @@
+<mat-tab-group headerPosition="below">
+  @for (image of this.images(); track $index) {
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <img [src]="image" alt="vehicle-image" class="h-16 w-20" />
+    </ng-template>
+    <img [src]="image" alt="vehicle-image" class="h-96 w-full px-12 py-8" />
+  </mat-tab>
+  }
+</mat-tab-group>
