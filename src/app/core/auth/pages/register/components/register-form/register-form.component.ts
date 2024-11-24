@@ -39,9 +39,9 @@ export class RegisterFormComponent {
   private readonly registerSrv: RegisterService = inject(RegisterService);
   private readonly router: Router = inject(Router);
 
-  protected hidePassword: WritableSignal<boolean> = signal(true);
-  protected hideConfirmPassword: WritableSignal<boolean> = signal(true);
-  protected registerForm: FormGroup = new FormGroup({
+  public hidePassword: WritableSignal<boolean> = signal(true);
+  public hideConfirmPassword: WritableSignal<boolean> = signal(true);
+  public registerForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [
       Validators.required,
@@ -68,7 +68,7 @@ export class RegisterFormComponent {
     event.stopPropagation();
   }
 
-  private matchValidator(): void {
+  matchValidator(): void {
     const password = this.registerForm.get('password')?.value;
     const confirmPassword = this.registerForm.get('confirmPassword')?.value;
 
