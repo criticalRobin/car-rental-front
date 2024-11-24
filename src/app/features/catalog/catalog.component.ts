@@ -16,8 +16,8 @@ import { FuelType } from './enums/fuel-type.enum';
 export class CatalogComponent implements OnInit {
   private readonly catalogSrv: CatalogService = inject(CatalogService);
 
-  protected catalog: ICatalogVehicle[] = [];
-  protected filteredCatalog: ICatalogVehicle[] = [];
+  public catalog: ICatalogVehicle[] = [];
+  public filteredCatalog: ICatalogVehicle[] = [];
   protected catalogAmount: number = 0;
 
   private filters: {
