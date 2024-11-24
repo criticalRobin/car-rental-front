@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -16,19 +16,19 @@ const MATERIAL = [MatToolbarModule, MatIconModule, MatButtonModule];
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   private readonly authSrv: AuthService = inject(AuthService);
   private readonly loginSrv: LoginService = inject(LoginService);
   private readonly router: Router = inject(Router);
 
-  protected navigationItems: NavigationItem[] = [];
+  public navigationItems: NavigationItem[] = [];
   protected logoutItem: NavigationItem = {
     title: 'Cerrar sesión',
     icon: 'exit_to_app',
     route: '/',
   };
 
-  constructor() {
+  ngOnInit(): void {
     const { role } = this.authSrv.getLoggedUserFromLocalStorage();
     this.navigationItems = this.itemsPerRoleChecker(role);
   }
