@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   private readonly loginSrv: LoginService = inject(LoginService);
   private readonly router: Router = inject(Router);
 
-  protected navigationItems: NavigationItem[] = [];
+  public navigationItems: NavigationItem[] = [];
   protected logoutItem: NavigationItem = {
     title: 'Cerrar sesión',
     icon: 'exit_to_app',

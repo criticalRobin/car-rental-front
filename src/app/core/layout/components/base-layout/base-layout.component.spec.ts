@@ -30,4 +30,16 @@ describe('BaseLayoutComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render navbar and footer', () => {
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    const navbar = compiled.querySelector('app-navbar');
+    expect(navbar).not.toBeNull();
+
+    const footer = compiled.querySelector('app-footer');
+    expect(footer).not.toBeNull();
+  });
 });
