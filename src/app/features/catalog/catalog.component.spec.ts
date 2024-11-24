@@ -6,8 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ICatalogVehicle } from './models/catalog-vehicle.interface';
 import { CatalogService } from './services/catalog.service';
 import { of } from 'rxjs';
-import { FuelType } from './enums/fuel-type.enum';
-import { TransmissionType } from './enums/transmission.enum';
 
 describe('CatalogComponent', () => {
   let component: CatalogComponent;
