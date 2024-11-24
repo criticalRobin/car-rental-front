@@ -2,10 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VehicleCardComponent } from './vehicle-card.component';
 import { ICatalogVehicle } from '@features/catalog/models/catalog-vehicle.interface';
+import { Router } from '@angular/router';
 
 describe('VehicleCardComponent', () => {
   let component: VehicleCardComponent;
   let fixture: ComponentFixture<VehicleCardComponent>;
+
   const vechicle: ICatalogVehicle = {
     vehicleId: 14,
     brand: 'Toyota',
@@ -54,5 +56,37 @@ describe('VehicleCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render vehicle details correctly', () => {
+    const compiled = fixture.nativeElement;
+
+    expect(compiled.querySelector('img').src).toContain(
+      vechicle.images[0].imageUrl
+    );
+    expect(compiled.querySelector('.text-2xl').textContent).toContain(
+      `${vechicle.brand} ${vechicle.model}`
+    );
+  });
+
+  it('should display default image if no vehicle images are available', () => {
+    const vehicleWithoutImages = { ...vechicle, images: [] };
+    fixture.componentRef.setInput('vehicle', vehicleWithoutImages);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('img').src).toContain('images/honda.jpg');
+  });
+
+  it('should navigate to vehicle detail page on button click', () => {
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+
+    const button = fixture.nativeElement.querySelector('button');
+    button.click();
+
+    expect(router.navigate).toHaveBeenCalledWith(['/vehicle-detail'], {
+      state: { vehicle: vechicle },
+    });
   });
 });

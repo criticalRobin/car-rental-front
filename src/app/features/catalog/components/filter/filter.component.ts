@@ -43,12 +43,12 @@ export class FilterComponent {
 
   @Output() cleanedFiltersEvent = new EventEmitter<void>();
 
-  protected fuelTypes: FuelType[] = [
+  public fuelTypes: FuelType[] = [
     FuelType.ELECTRIC,
     FuelType.GASOLINE,
     FuelType.HYBRID,
   ];
-  protected transmissionTypes: TransmissionType[] = [
+  public transmissionTypes: TransmissionType[] = [
     TransmissionType.AUTOMATIC,
     TransmissionType.MANUAL,
   ];
