@@ -1,4 +1,6 @@
-@if (this.isLogged) {
+@if (this.loadingSrv.isLoading | async) {
+<app-spinner class="fixed inset-0 z-50"> </app-spinner>
+} @if (this.isLogged) {
 <app-base-layout />
 } @if(!this.isLogged) {
 <router-outlet />
