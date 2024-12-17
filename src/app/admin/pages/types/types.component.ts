@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TypeService } from './services/types.service';
 import { Type } from './models/type.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,6 +12,8 @@ import { MatTableModule } from '@angular/material/table';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { TypeModalComponent } from './components/type-modal/type-modal.component'; 
+import { NotificationService } from '@shared/services/notification.service';
+import { StateNotification } from '@shared/enums/state-notification';
 
 const MATERIAL = [
   MatFormFieldModule,
@@ -36,7 +38,7 @@ export class TypesVehiclesComponent implements OnInit {
   searchControl: FormControl = new FormControl('');
   pageSize: number = 4;
   currentPage: number = 0;
-
+  notificacionService = inject(NotificationService);
   constructor(private typeService: TypeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -91,7 +93,10 @@ export class TypesVehiclesComponent implements OnInit {
             this.types.push(newType);
             this.filteredTypes = [...this.types];
             this.updatePagination();
-            alert('Tipo agregado exitosamente.');
+            this.notificacionService.activateNotification(
+              'Tipo agregado exitosamente.',
+              StateNotification.SUCCESS
+            );
           },
           error: (err) => {
             console.error('Error al agregar el tipo:', err);
@@ -122,12 +127,18 @@ export class TypesVehiclesComponent implements OnInit {
               this.types[index] = updatedTypeResponse;
               this.filteredTypes = [...this.types];
               this.updatePagination();
-              alert('Tipo actualizado exitosamente.');
+              this.notificacionService.activateNotification(
+                'Tipo actualizado exitosamente.',
+                StateNotification.SUCCESS
+              );
             }
           },
           error: (err) => {
             console.error('Error al actualizar el tipo:', err);
-            alert('Error al actualizar el tipo. Inténtalo de nuevo.');
+            this.notificacionService.activateNotification(
+              'Error al actualizar el tipo.',
+              StateNotification.ERROR
+            );
           },
         });
       }
@@ -141,7 +152,10 @@ export class TypesVehiclesComponent implements OnInit {
           this.types = this.types.filter((t) => t.typeId !== type.typeId);
           this.filteredTypes = [...this.types];
           this.updatePagination();
-          alert('Tipo eliminado exitosamente.');
+          this.notificacionService.activateNotification(
+            'Tipo eliminado exitosamente.',
+            StateNotification.SUCCESS
+          );
         },
         error: (err) => {
           console.error('Error al eliminar el tipo:', err);
