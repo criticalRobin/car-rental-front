@@ -19,6 +19,17 @@ export class VehicleService {
     return this.http.get<Vehicle[]>(url, { headers });
   }
 
+  getBrands(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/vehicles/brands`);
+  }
+
+
+  
+  getModelsByBrand(brandId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/vehicles/models/${brandId}`);
+  }
+
+
     addVehicle(vehicle: Partial<Vehicle>, images: File[]): Observable<Vehicle> {
       const url: string = `${this.baseUrl}/vehicles`;
       const headers = this.getAuthHeaders();

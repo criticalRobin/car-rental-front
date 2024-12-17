@@ -14,7 +14,6 @@ export interface Vehicle {
     transmissionType: string;   // Tipo de transmisión (e.g., "MANUAL")
     images?: Image[];           // Lista de imágenes (opcional)
   }
-  
   export interface Image {
     imageId: number;            // ID único de la imagen
     imageUrl: string;           // URL de la imagen

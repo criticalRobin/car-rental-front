@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { VehicleService } from '../../services/vehicles.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-modal',
@@ -35,9 +37,13 @@ export class VehicleModalComponent implements OnInit {
   vehicleForm: FormGroup;
   typeVehicles: any[] = [];
   images: File[] = [];
+  brands: any[] = [];
+  models: any[] = [];
+  isEditMode: boolean = false;
 
   constructor(
     private fb: FormBuilder,
+    private vehicleService: VehicleService,
     private typeVehicleService: TypeVehicleService,
     public dialogRef: MatDialogRef<VehicleModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -48,45 +54,38 @@ export class VehicleModalComponent implements OnInit {
       licensePlate: ['', Validators.required],
       typeId: ['', Validators.required],
       status: ['', Validators.required],
-      acquisitionDate: ['', Validators.required],
+      acquisitionDate: ['', [Validators.required, this.validateDate]],
       mileage: [0, [Validators.required, Validators.min(0)]],
       location: ['', Validators.required],
       airConditioning: [false],
-      numberOfDoors: [4, [Validators.required, Validators.min(1)]],
+      numberOfDoors: [4, [Validators.required, Validators.min(2)]],
       fuelType: ['', Validators.required],
       transmissionType: ['', Validators.required],
     });
   }
 
- /* ngOnInit(): void {
-    console.log('Datos recibidos:', this.data); // Verifica que `typeId` esté presente
-
-    this.loadTypeVehicles();
-
-    // Si estamos editando, inicializa el formulario con los datos
-    if (this.data) {
-      this.vehicleForm.patchValue({
-        brand: this.data.brand,
-        model: this.data.model,
-        licensePlate: this.data.licensePlate,
-        typeId: this.data.typeId, // Se actualizará después de cargar los tipos
-        status: this.data.status,
-        acquisitionDate: this.data.acquisitionDate,
-        mileage: this.data.mileage,
-        location: this.data.location,
-        airConditioning: this.data.airConditioning,
-        numberOfDoors: this.data.numberOfDoors,
-        fuelType: this.data.fuelType,
-        transmissionType: this.data.transmissionType,
-      });
+  validateDate(control: any): { [key: string]: boolean } | null {
+    if (!control.value) {
+      return null;
     }
-  }*/
-
-
+    const inputDate = new Date(control.value);
+    const today = new Date();
+  
+    if (inputDate > today) {
+      return { invalidFutureDate: true };
+    }
+  
+    if (inputDate.getFullYear() > 9999) {
+      return { invalidYear: true };
+    }
+    return null; 
+  }
     ngOnInit(): void {
       console.log('Datos recibidos:', this.data); 
-    
+      this.isEditMode = !!this.data;
       this.loadTypeVehicles();
+      this.loadBrands();
+      
     
       if (this.data) {
         this.vehicleForm.patchValue({
@@ -102,42 +101,52 @@ export class VehicleModalComponent implements OnInit {
           fuelType: this.data.fuelType,
           transmissionType: this.data.transmissionType,
         });
+
+ if (this.isEditMode) {
+      this.vehicleForm.get('brand')?.disable();
+      this.vehicleForm.get('model')?.disable();
+      this.vehicleForm.get('licensePlate')?.disable();
+      this.vehicleForm.get('typeId')?.disable();
+      this.vehicleForm.get('acquisitionDate')?.disable();
+      this.vehicleForm.get('airConditioning')?.disable();
+      this.vehicleForm.get('numberOfDoors')?.disable();
+      this.vehicleForm.get('fuelType')?.disable();
+      this.vehicleForm.get('transmissionType')?.disable();
+    }
       }
     }
 
- /* private loadTypeVehicles(): void {
-    this.typeVehicleService.getTypeVehicles().subscribe({
-      next: (data) => {
-        console.log('Tipos de vehículo cargados:', data);
+    private loadBrands(): void {
+      this.vehicleService.getBrands().subscribe({
+        next: (brands) => {
+          this.brands = brands;
+        },
+        error: (err) => {
+          console.error('Error al cargar marcas:', err);
+        },
+      });
+    }
 
-        this.typeVehicles = data.map((type) => ({
-          typeId: type.typeId,
-          name: type.name,
-        }));
-        
-        if (this.data?.typeId) {
-          console.log('typeId recibido:', this.data.typeId);
-          this.vehicleForm.get('typeId')?.setValue(this.data.typeId);
-        }
+    onBrandChange(event: any): void {
+      const selectedBrandName = event.value;
+      const selectedBrand = this.brands.find(brand => brand.name === selectedBrandName);
+    
+      if (selectedBrand) {
+        this.loadModels(selectedBrand.brandId);
+      }
+    }
+  
+    private loadModels(brandId: number): void {
+      this.vehicleService.getModelsByBrand(brandId).subscribe({
+        next: (models) => {
+          this.models = models;
+        },
+        error: (err) => {
+          console.error('Error al cargar modelos:', err);
+        },
+      });
+    }
 
-        // Parchear el formulario con typeId después de cargar los tipos
-        if (this.data?.typeId) {
-          const matchedType = this.typeVehicles.find(
-            (type) => type.typeId === this.data.typeId
-          );
-          if (matchedType) {
-            this.vehicleForm.get('typeId')?.setValue(matchedType.typeId);
-          } else {
-            console.warn('El typeId no coincide con los tipos disponibles.');
-          }
-        }
-      },
-      error: (err) => {
-        console.error('Error al cargar los tipos de vehículos:', err);
-      },
-    });
-  }
-  */
 
   private loadTypeVehicles(): void {
     this.typeVehicleService.getTypeVehicles().subscribe({
@@ -147,7 +156,6 @@ export class VehicleModalComponent implements OnInit {
           name: type.name,
         }));
         console.log('Tipos de vehículo cargados:', this.typeVehicles);
-  
         if (this.data?.type) {
           const matchedType = this.typeVehicles.find(
             (type) => type.name.toLowerCase() === this.data.type.toLowerCase()
@@ -180,6 +188,7 @@ export class VehicleModalComponent implements OnInit {
   save(): void {
     if (this.vehicleForm.valid) {
       const formValues = this.vehicleForm.getRawValue();
+      console.log('Valores enviados:', formValues); // Para depurar
       this.dialogRef.close({ vehicle: formValues, images: this.images });
     }
   }
