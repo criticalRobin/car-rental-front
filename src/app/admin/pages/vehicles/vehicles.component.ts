@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { VehicleService } from './services/vehicles.service';
 import { Vehicle } from './models/vehicle.model';
 import { MatTableModule } from '@angular/material/table';
@@ -12,8 +12,11 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { MatDialog } from '@angular/material/dialog';
 import { VehicleModalComponent } from './components/vehicle-modal/vehicle-modal.component';
 import { CommonModule } from '@angular/common';
-import { TypeVehicleService } from './services/type-vehicle.service'; 
+import { TypeVehicleService } from './services/type-vehicle.service';
 import { ImageUploadModalComponent } from './components/image-upload/image-upload-modal.component';
+import { NotificationService } from '@shared/services/notification.service';
+import { StateNotification } from '@shared/enums/state-notification';
+import { ConfirmDialogComponent } from '@shared/components/ConfirmDialogComponent/confirm.dialog.component';
 
 const MATERIAL = [
   MatFormFieldModule,
@@ -27,14 +30,14 @@ const MATERIAL = [
   selector: 'app-vehicles',
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.css'],
-  imports: [MATERIAL, ReactiveFormsModule, SearchBarComponent, PaginatorComponent,  CommonModule],
+  imports: [MATERIAL, ReactiveFormsModule, SearchBarComponent, PaginatorComponent, CommonModule],
   standalone: true,
 })
 export class VehiclesComponent implements OnInit {
   vehicles: Vehicle[] = [];
   filteredVehicles: Vehicle[] = [];
   paginatedVehicles: Vehicle[] = [];
-  typeVehicles: any[] = []; 
+  typeVehicles: any[] = [];
   displayedColumns: string[] = [
     'images',
     'brand',
@@ -51,7 +54,7 @@ export class VehiclesComponent implements OnInit {
     'transmissionType',
     'actions'
   ];
-  
+
   pageSize: number = 4;
   currentPage: number = 0;
 
@@ -59,9 +62,11 @@ export class VehiclesComponent implements OnInit {
   token: string = '';
   searchControl: FormControl = new FormControl('');
 
-  constructor(private vehicleService: VehicleService,  
-              private dialog: MatDialog,
-              private typeVehicleService: TypeVehicleService,)  {}
+  notificationService = inject(NotificationService);
+
+  constructor(private vehicleService: VehicleService,
+    private dialog: MatDialog,
+    private typeVehicleService: TypeVehicleService,) { }
 
   ngOnInit(): void {
     const rawData = localStorage.getItem('loggedUser');
@@ -69,7 +74,7 @@ export class VehiclesComponent implements OnInit {
       if (rawData) {
         const parsedData = JSON.parse(rawData);
         const rawToken = parsedData.token || '';
-        this.token = rawToken.replace('Bearer ', ''); 
+        this.token = rawToken.replace('Bearer ', '');
       } else {
         this.token = 'No token available';
       }
@@ -103,7 +108,7 @@ export class VehiclesComponent implements OnInit {
   loadTypeVehicles(): void {
     this.typeVehicleService.getTypeVehicles().subscribe({
       next: (data) => {
-        this.typeVehicles = data; 
+        this.typeVehicles = data;
       },
       error: (err) => {
         console.error('Error al cargar los tipos de vehículos:', err);
@@ -118,9 +123,9 @@ export class VehiclesComponent implements OnInit {
   openImageModal(vehicle: Vehicle): void {
     const dialogRef = this.dialog.open(ImageUploadModalComponent, {
       width: '500px',
-      data: { vehicleId: vehicle.vehicleId, images: vehicle.images || []  },
+      data: { vehicleId: vehicle.vehicleId, images: vehicle.images || [] },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Imagen cargada para el vehículo:', vehicle.vehicleId);
@@ -129,60 +134,76 @@ export class VehiclesComponent implements OnInit {
         this.loadTypeVehicles();
       }
     }
-  
-  );
+
+    );
   }
 
   editVehicle(vehicle: Vehicle): void {
     const dialogRef = this.dialog.open(VehicleModalComponent, {
       width: '600px',
-      data: vehicle, 
+      data: vehicle,
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const updatedVehicle = result.vehicle; 
-  
+        const updatedVehicle = result.vehicle;
+
         this.vehicleService.editVehicle(vehicle.vehicleId, updatedVehicle).subscribe({
           next: (editedVehicle) => {
-            alert('Vehículo actualizado exitosamente.');
-            console.log('Vehículo actualizado:', editedVehicle);
+            this.notificationService.activateNotification(
+              'Vehículo actualizado exitosamente',
+              StateNotification.SUCCESS
+            );
             const index = this.vehicles.findIndex((v) => v.vehicleId === editedVehicle.vehicleId);
             if (index !== -1) {
               this.vehicles[index] = editedVehicle;
-              this.filteredVehicles = [...this.vehicles]; 
-              this.updatePagination(); 
+              this.filteredVehicles = [...this.vehicles];
+              this.updatePagination();
               this.loadTypeVehicles();
-              this.loadVehicles(); 
+              this.loadVehicles();
             }
           },
           error: (err) => {
             console.error('Error al actualizar el vehículo:', err);
           },
         });
-        
+
       }
     });
   }
 
   deleteVehicle(vehicle: Vehicle): void {
-    if (confirm(`¿Estás seguro de que deseas eliminar el vehículo con placa ${vehicle.licensePlate}?`)) {
-      this.vehicleService.deleteVehicle(vehicle.vehicleId).subscribe({
-        next: () => {
-          alert(`Vehículo con placa ${vehicle.licensePlate} eliminado exitosamente.`);
-      
-          this.vehicles = this.vehicles.filter(v => v.vehicleId !== vehicle.vehicleId);
-          this.filteredVehicles = [...this.vehicles]; 
-          this.updatePagination(); 
-          this.loadVehicles(); 
-          this.loadTypeVehicles();
-        },
-        error: (err) => {
-          console.error('Error al eliminar el vehículo:', err);
-          alert('Ocurrió un error al eliminar el vehículo. Intenta nuevamente.');
-        },
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirmar eliminación',
+        message: `¿Estás seguro de que deseas eliminar el vehículo con placa ${vehicle.licensePlate}?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.vehicleService.deleteVehicle(vehicle.vehicleId).subscribe({
+          next: () => {
+            this.notificationService.activateNotification(
+              `Vehículo con placa ${vehicle.licensePlate} eliminado exitosamente`,
+              StateNotification.SUCCESS
+            );
+            this.vehicles = this.vehicles.filter(v => v.vehicleId !== vehicle.vehicleId);
+            this.filteredVehicles = [...this.vehicles];
+            this.updatePagination();
+            this.loadVehicles();
+            this.loadTypeVehicles();
+          },
+          error: (err) => {
+            this.notificationService.activateNotification(
+              `Ocurrió un error al eliminar el vehículo con placa ${vehicle.licensePlate}`,
+              StateNotification.ERROR
+            );
+          },
+        });
+      }
+    });
   }
 
   loadVehicles(): void {
@@ -190,7 +211,7 @@ export class VehiclesComponent implements OnInit {
       next: (data) => {
         this.vehicles = data;
         this.filteredVehicles = data;
-        this.updatePagination(); 
+        this.updatePagination();
       },
       error: (err) => {
         console.error('Error al cargar los vehículos:', err);
@@ -202,16 +223,18 @@ export class VehiclesComponent implements OnInit {
     const dialogRef = this.dialog.open(VehicleModalComponent, {
       width: '600px',
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const vehicleData = result.vehicle;
-        const images = result.images; 
-  
+        const images = result.images;
+
         this.vehicleService.addVehicle(vehicleData, images).subscribe({
           next: (newVehicle) => {
-            alert('Vehículo agregado exitosamente.');
-            console.log('Vehículo agregado:', newVehicle);
+            this.notificationService.activateNotification(
+              'Vehículo agregado exitosamente',
+              StateNotification.SUCCESS
+            );
             this.vehicles.push(newVehicle);
             this.filteredVehicles = [...this.vehicles];
             this.updatePagination();
@@ -219,20 +242,24 @@ export class VehiclesComponent implements OnInit {
             this.loadTypeVehicles();
           },
           error: (err) => {
+            this.notificationService.activateNotification(
+              'Ocurrió un error al agregar el vehículo',
+              StateNotification.ERROR
+            );
             console.error('Error al agregar el vehículo:', err);
           },
         });
       }
     });
   }
-  
-onSearch(term: string): void {
-  this.filteredVehicles = this.vehicles.filter((vehicle) =>
-    this.matchesSearch(vehicle, term)
-  );
-  this.currentPage = 0;
-  this.updatePagination();
-}
+
+  onSearch(term: string): void {
+    this.filteredVehicles = this.vehicles.filter((vehicle) =>
+      this.matchesSearch(vehicle, term)
+    );
+    this.currentPage = 0;
+    this.updatePagination();
+  }
 
   private matchesSearch(vehicle: Vehicle, term: string): boolean {
     if (!term) return true;

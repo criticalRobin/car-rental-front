@@ -1,0 +1,13 @@
+.exito-noti {
+  --mdc-snackbar-container-color: rgb(112, 211, 112) !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-mdc-snack-bar-button-color: white !important;
+  white-space: pre-wrap;
+}
+
+.error-noti {
+  --mdc-snackbar-container-color: rgb(206, 92, 92) !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-mdc-snack-bar-button-color: white !important;
+  white-space: pre-wrap;
+}
