@@ -1,24 +1,43 @@
 <h2 mat-dialog-title>{{ data ? 'Editar Vehículo' : 'Agregar Vehículo' }}</h2>
 <mat-dialog-content>
   <form [formGroup]="vehicleForm">
+    <!-- Campo para Marca -->
     <mat-form-field appearance="fill">
       <mat-label>Marca</mat-label>
-      <input matInput formControlName="brand" />
+      <mat-select formControlName="brand" (selectionChange)="onBrandChange($event)">
+        <mat-option *ngFor="let brand of brands" [value]="brand.name">
+          {{ brand.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="vehicleForm.get('brand')?.hasError('required')">
+        Llenar campo Marca.
+      </mat-error>
     </mat-form-field>
-
+    
+    <!-- Campo para Modelo -->
     <mat-form-field appearance="fill">
       <mat-label>Modelo</mat-label>
-      <input matInput formControlName="model" />
+      <mat-select formControlName="model">
+        <mat-option *ngFor="let model of models" [value]="model.name">
+          {{ model.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="vehicleForm.get('model')?.hasError('required')">
+        Llenar campo Modelo.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Placa</mat-label>
-      <input matInput formControlName="licensePlate" />
+      <input matInput formControlName="licensePlate" [readonly]="isEditMode"/>
+      <mat-error *ngIf="vehicleForm.get('licensePlate')?.hasError('required')">
+        Llenar campo Placa.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" *ngIf="typeVehicles.length > 0">
       <mat-label>Tipo de Vehículo</mat-label>
-      <mat-select formControlName="typeId">
+      <mat-select formControlName="typeId" [disabled]="isEditMode">
         <mat-option *ngFor="let type of typeVehicles" [value]="type.typeId">
           {{ type.name }}
         </mat-option>
@@ -36,29 +55,55 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Fecha de Adquisición</mat-label>
-      <input matInput type="date" formControlName="acquisitionDate" placeholder="YYYY-MM-DD" />
+      <input
+       matInput 
+       type="date" 
+      formControlName="acquisitionDate" 
+      placeholder="YYYY-MM-DD" 
+      [readonly]="isEditMode"/>
+      <mat-error *ngIf="vehicleForm.get('acquisitionDate')?.hasError('invalidFutureDate')">
+        La fecha no puede ser mayor a la fecha actual.
+      </mat-error>
+      <mat-error *ngIf="vehicleForm.get('acquisitionDate')?.hasError('invalidYear')">
+        El año ingresado no es válido.
+      </mat-error>
+      <mat-error *ngIf="vehicleForm.get('acquisitionDate')?.hasError('required')">
+        Este campo es obligatorio.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Kilometraje</mat-label>
       <input matInput type="number" formControlName="mileage" />
+      <mat-error *ngIf="vehicleForm.get('mileage')?.hasError('min')">
+        El kilometraje debe ser un valor positivo.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Ubicación</mat-label>
       <input matInput formControlName="location" />
+      <mat-error *ngIf="vehicleForm.get('location')?.hasError('required')">
+        Llenar campo Ubicación.
+      </mat-error>
     </mat-form-field>
 
     <mat-checkbox formControlName="airConditioning">Aire Acondicionado</mat-checkbox>
 
     <mat-form-field appearance="fill">
       <mat-label>Número de Puertas</mat-label>
-      <input matInput type="number" formControlName="numberOfDoors" />
+      <input matInput type="number" formControlName="numberOfDoors" [readonly]="isEditMode"/>
+      <mat-error *ngIf="vehicleForm.get('numberOfDoors')?.hasError('required')">
+        Llenar campo Número de Puertas.
+      </mat-error>
+      <mat-error *ngIf="vehicleForm.get('numberOfDoors')?.hasError('min')">
+        El número de puertas debe ser al menos 2.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Tipo de Combustible</mat-label>
-      <mat-select formControlName="fuelType">
+      <mat-select formControlName="fuelType" [disabled]="isEditMode">
         <mat-option value="GASOLINE">Gasolina</mat-option>
         <mat-option value="HYBRID">Híbrido</mat-option>
         <mat-option value="ELECTRIC">Eléctrico</mat-option>
@@ -67,7 +112,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Transmisión</mat-label>
-      <mat-select formControlName="transmissionType">
+      <mat-select formControlName="transmissionType" [disabled]="isEditMode">
         <mat-option value="MANUAL">Manual</mat-option>
         <mat-option value="AUTOMATIC">Automática</mat-option>
       </mat-select>
@@ -96,7 +141,7 @@
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="close()">Cancelar</button>
-  <button mat-button color="primary" (click)="save()" [disabled]="!vehicleForm.valid">
+  <button mat-button class="a" color="primary" (click)="save()" [disabled]="!vehicleForm.valid">
     Guardar
   </button>
 </mat-dialog-actions>
