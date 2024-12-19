@@ -18,7 +18,6 @@
   
     <div class="table-wrapper">
       <table mat-table [dataSource]="paginatedRetuns" class="vehicle-table">
-  
         <ng-container matColumnDef="rentalId">
           <th mat-header-cell *matHeaderCellDef class="custom-header">ID Alquiler</th>
           <td mat-cell *matCellDef="let returns">{{ returns.rentalId }}</td>
@@ -28,16 +27,16 @@
           <th mat-header-cell *matHeaderCellDef class="custom-header">Número Cliente</th>
           <td mat-cell *matCellDef="let returns">{{ returns.clientIdNumber }}</td>
         </ng-container>
-  <!--
+ 
         <ng-container matColumnDef="returnDate">
           <th mat-header-cell *matHeaderCellDef class="custom-header">Fecha Devolución</th>
           <td mat-cell *matCellDef="let returns">{{ returns.returnDate.slice(0, 10) }}</td>
         </ng-container>
- -->
+ <!--
  <ng-container matColumnDef="returnDate">
   <th mat-header-cell *matHeaderCellDef class="custom-header">Fecha Devolución</th>
   <td mat-cell *matCellDef="let returns">{{ returns.returnDate.toISOString().slice(0, 10) }}</td>
-</ng-container>
+</ng-container>  -->
 
         <ng-container matColumnDef="licensePlate">
           <th mat-header-cell *matHeaderCellDef class="custom-header">Placa Vehículo</th>

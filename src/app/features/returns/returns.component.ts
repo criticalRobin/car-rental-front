@@ -12,6 +12,8 @@ import { Return } from './models/return.model';
 import { ReturnModalComponent } from './components/return-modal/return-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ReturnService } from './services/returns.service';
+import { NotificationService } from '@shared/services/notification.service';
+import { StateNotification } from '@shared/enums/state-notification';
 
 const MATERIAL = [
   MatFormFieldModule,
@@ -28,19 +30,16 @@ const MATERIAL = [
   templateUrl: './returns.component.html',
   styleUrl: './returns.component.css'
 })
+
 export class ReturnsComponent implements OnInit {
   private readonly returnService: ReturnService = inject(ReturnService);
-  public returns: Return[] = [ 
-    { rentalId: 1, clientIdNumber: '123456789', returnDate: new Date('2024-05-05'), licensePlate: 'ABC123' },
-    { rentalId: 2, clientIdNumber: '987654321', returnDate: new Date('2024-05-05'), licensePlate: 'XYZ987' },
-    { rentalId: 3, clientIdNumber: '456789123', returnDate: new Date('2024-05-05'), licensePlate: 'LMN456' },
-    { rentalId: 4, clientIdNumber: '321654987', returnDate: new Date('2024-05-05'), licensePlate: 'QWE321' },
-  ];
+  public returns: Return[] = [ ];
   public filteredReturn: Return[] = [];
   public paginatedRetuns: Return[] = [];
   pageSize: number = 4;
   currentPage: number = 0;
   public displayedColumns:string[]  = ['rentalId', 'clientIdNumber', 'returnDate', 'licensePlate', 'actions'];
+  notificationService = inject(NotificationService);
 
   constructor(private dialog: MatDialog) {
     this.filteredReturn = [...this.returns];
@@ -51,10 +50,26 @@ export class ReturnsComponent implements OnInit {
     this.checkPaymentSuccess();
     this.updatePagination();
     this.loadReturns();
+    this.checkForPaymentConfirmation();
   }
 
+
+  checkForPaymentConfirmation(): void {
+    const sessionId = localStorage.getItem('sessionId');
+    const rentalId = localStorage.getItem('rentalId');
+    if (sessionId && rentalId) {
+      setTimeout(() => {
+        this.notificationService.activateNotification(
+          'Pago confirmado exitosamente',
+          StateNotification.SUCCESS
+        );
+      }, 10000); // 10 segundos
+    }
+  }
+
+  
   loadReturns(): void {
-   /* this.returnService.getReturnVehicles().subscribe({
+    this.returnService.getReturnVehicles().subscribe({
       next: (data: Return[]) => {
         this.returns = data;
         this.filteredReturn = [...this.returns];
@@ -64,24 +79,30 @@ export class ReturnsComponent implements OnInit {
         console.error('Error al cargar los returns:', err);
       }
     });
-   */
-    this.updatePagination();
   }
-
 
   checkPaymentSuccess(): void {
     const sessionId = localStorage.getItem('sessionId');
-    const returnId = localStorage.getItem('returnId');
+    const returnId = localStorage.getItem('rentalId');
     if (sessionId && returnId) {
+      console.log('Iniciando confirmación de pago con sessionId:', sessionId, 'y returnId:', returnId);
       this.returnService.confirmPayment(sessionId, +returnId).subscribe({
         next: () => {
           console.log('Pago confirmado exitosamente');
           alert('Pago confirmado exitosamente');
+          this.notificationService.activateNotification(
+            'Pago confirmado exitosamente',
+            StateNotification.SUCCESS
+          );
           localStorage.removeItem('sessionId');
-          localStorage.removeItem('returnId');
+          localStorage.removeItem('rentalId');
         },
         error: (err) => {
           console.error('Error al confirmar el pago:', err);
+        /*  this.notificationService.activateNotification(
+            'Error al confirmar el pago',
+            StateNotification.ERROR
+          );*/
         },
       });
     }
