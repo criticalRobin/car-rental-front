@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { Return } from '../../models/return.model';
@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { ReturnService } from '../../services/returns.service';
+import { NotificationService } from '@shared/services/notification.service';
+import { StateNotification } from '@shared/enums/state-notification';
 
 @Component({
   selector: 'app-return-modal',
@@ -38,6 +40,7 @@ export class ReturnModalComponent implements OnInit {
     { label: 'Neumáticos', value: 300, controlName: 'tires' },
   ];
   delayFeePerDay = 50;
+  notificationService = inject(NotificationService);
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +52,7 @@ export class ReturnModalComponent implements OnInit {
       rentalId: [{ value: '', disabled: true }, Validators.required],
       licensePlate: [{ value: '', disabled: true }, Validators.required],
       clientIdNumber: [{ value: '', disabled: true }, Validators.required],
-      delayDays: [0, [Validators.required, Validators.min(0)]],
+      delayDays: [0, [Validators.required, Validators.min(0), Validators.max(365)]],
       total: [{ value: 0, disabled: true }],
       ...this.damages.reduce(
         (controls, damage) => ({
@@ -114,6 +117,13 @@ export class ReturnModalComponent implements OnInit {
           lateFee: 0,
         };
         this.sendReturnWithoutDamage(returnData);
+
+        this.notificationService.activateNotification(
+          'Auto devuelto sin daños',
+          StateNotification.SUCCESS
+        );
+        localStorage.removeItem('sessionId');
+
       } else {
         // Devolución con daños
         const returnDetails = this.damages
@@ -138,7 +148,7 @@ export class ReturnModalComponent implements OnInit {
         this.returnService.sendReturnWithDamage(returnData).subscribe({
           next: (response) => {
             console.log('Devolución con daños enviada:', response);
-  
+
             // Iniciar proceso de pago
             const stripePaymentData = {
               rentalId,
@@ -154,7 +164,7 @@ export class ReturnModalComponent implements OnInit {
                 // Guardar sessionId en Local Storage
                 localStorage.setItem('sessionId', stripeResponse.sessionId);
                 // Abrir URL en una nueva pestaña
-                window.open(stripeResponse.url, '_blank');
+                window.location.href = stripeResponse.url;
                 // Cerrar el modal
                 this.dialogRef.close();
               },
