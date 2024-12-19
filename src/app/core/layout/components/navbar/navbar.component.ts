@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
           icon: 'directions_car',
           route: '/types-vehicles',
         },
-        { title: 'Reservas', icon: 'person_pin', route: '/settings' },
+        { title: 'Alquileres', icon: 'person_pin', route: '/settings' },
         { title: 'Facturas', icon: 'note_add', route: '/bills' },
         { title: 'Usuarios', icon: 'group', route: '/users' },
       ];
@@ -54,17 +54,16 @@ export class NavbarComponent implements OnInit {
     if (role === 'EMPLOYEE') {
       console.log('ADMIN');
       items = [
-        { title: 'Reservas', icon: 'person_pin', route: '/settings' },
+        { title: 'Alquileres', icon: 'person_pin', route: '/rental-status' },
         { title: 'Facturas', icon: 'note_add', route: '/bills' },
         { title: 'Devoluciones', icon: 'assignment_return', route: '/returns' },
-
       ];
     }
 
     if (role === 'CLIENT') {
       items = [
         { title: 'Vehiculos', icon: 'directions_car', route: '/catalog' },
-        { title: 'Alquileres', icon: 'directions_car', route: '/rental-list' },
+        { title: 'Alquileres', icon: 'person_pin', route: '/rental-list' },
       ];
     }
 

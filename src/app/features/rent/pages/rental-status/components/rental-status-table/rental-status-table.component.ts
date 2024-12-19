@@ -4,6 +4,8 @@ import {
   inject,
   input,
   InputSignal,
+  output,
+  OutputEmitterRef,
   ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,9 +15,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
-import { IRentalList } from '../../models/rental-list';
 import { CommonModule } from '@angular/common';
+import { IRentalList } from '@features/rent/pages/rental-list/models/rental-list';
+import { RentalStatusService } from '../../services/rental-status.service';
+import { NotificationService } from '@shared/services/notification.service';
+import { StateNotification } from '@shared/enums/state-notification';
 
 const MATERIAL = [
   MatFormFieldModule,
@@ -28,14 +32,19 @@ const MATERIAL = [
 ];
 
 @Component({
-  selector: 'app-rental-list-table',
+  selector: 'app-rental-status-table',
   standalone: true,
   imports: [MATERIAL, CommonModule],
-  templateUrl: './rental-list-table.component.html',
-  styleUrl: './rental-list-table.component.css',
+  templateUrl: './rental-status-table.component.html',
+  styleUrl: './rental-status-table.component.css',
 })
-export class RentalListTableComponent {
-  private readonly router: Router = inject(Router);
+export class RentalStatusTableComponent {
+  private readonly rentalStatusSrv: RentalStatusService =
+    inject(RentalStatusService);
+  private readonly notificationSrv: NotificationService =
+    inject(NotificationService);
+
+  public updateEventEmitter: OutputEmitterRef<void> = output<void>();
 
   protected displayedColumns: string[] = [
     'clientIdNumber',
@@ -75,5 +84,23 @@ export class RentalListTableComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  updateRentalStatus(rentalId: number) {
+    this.rentalStatusSrv.updateRentalStatus(rentalId).subscribe({
+      next: () => {
+        this.notificationSrv.activateNotification(
+          'Alquiler Aprobado!',
+          StateNotification.SUCCESS
+        );
+        this.updateEventEmitter.emit();
+      },
+      error: () => {
+        this.notificationSrv.activateNotification(
+          'Error al aprobar el alquiler',
+          StateNotification.ERROR
+        );
+      },
+    });
   }
 }

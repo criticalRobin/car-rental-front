@@ -24,4 +24,12 @@ export const rentRoutes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'rental-status',
+    loadComponent: () =>
+      import('@features/rent/pages/rental-status/rental-status.component').then(
+        (c) => c.RentalStatusComponent
+      ),
+    canActivate: [AuthGuard],
+  },
 ];
