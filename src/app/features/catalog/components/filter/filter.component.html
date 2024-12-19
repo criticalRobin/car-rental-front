@@ -26,6 +26,7 @@
           [(ngModel)]="this.minRate"
           matInput
           type="number"
+          [min]="0"
           (input)="this.onMinRateChange()"
         />
       </mat-form-field>
@@ -34,6 +35,7 @@
           [(ngModel)]="this.maxRate"
           matInput
           type="number"
+          [min]="0"
           (input)="this.onMaxRateChange()"
         />
       </mat-form-field>
@@ -57,6 +59,8 @@
           [(ngModel)]="this.numberOfDoors"
           matInput
           type="number"
+          [min]="0"
+          [max]="8"
           (input)="this.onNumberOfDoorsChange()"
         />
       </mat-form-field>
