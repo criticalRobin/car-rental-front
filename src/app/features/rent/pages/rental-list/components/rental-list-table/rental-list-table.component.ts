@@ -13,9 +13,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
 import { IRentalList } from '../../models/rental-list';
 import { CommonModule } from '@angular/common';
+import { IPayment, IPaymentResponse } from '../../models/payment';
+import { PaymentService } from '../../services/payment.service';
+import { NotificationService } from '@shared/services/notification.service';
+import { StateNotification } from '@shared/enums/state-notification';
 
 const MATERIAL = [
   MatFormFieldModule,
@@ -35,7 +38,9 @@ const MATERIAL = [
   styleUrl: './rental-list-table.component.css',
 })
 export class RentalListTableComponent {
-  private readonly router: Router = inject(Router);
+  private readonly paymentService: PaymentService = inject(PaymentService);
+  private readonly notificationSrv: NotificationService =
+    inject(NotificationService);
 
   protected displayedColumns: string[] = [
     'clientIdNumber',
@@ -75,5 +80,28 @@ export class RentalListTableComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  makePayment(rental: IRentalList) {
+    const paymentData: IPayment = {
+      rentalId: rental.rentalId,
+      amount: rental.totalAmount,
+      successUrl: 'http://localhost:4200/rental-list',
+      cancelUrl: 'http://localhost:4200/catalog',
+      typePayment: 'RENTAL',
+    };
+
+    this.paymentService.pay(paymentData).subscribe({
+      next: (res: IPaymentResponse) => {
+        localStorage.setItem('sessionId', res.sessionId);
+        window.location.href = res.url;
+      },
+      error: () => {
+        this.notificationSrv.activateNotification(
+          'Error al generar el pago',
+          StateNotification.ERROR
+        );
+      },
+    });
   }
 }
