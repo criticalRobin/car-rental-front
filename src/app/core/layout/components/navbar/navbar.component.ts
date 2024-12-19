@@ -56,6 +56,8 @@ export class NavbarComponent implements OnInit {
       items = [
         { title: 'Reservas', icon: 'person_pin', route: '/settings' },
         { title: 'Facturas', icon: 'note_add', route: '/bills' },
+        { title: 'Devoluciones', icon: 'assignment_return', route: '/returns' },
+
       ];
     }
 
