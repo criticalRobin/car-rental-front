@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ICatalogVehicle } from '@features/catalog/models/catalog-vehicle.interface';
 import { GaleryComponent } from './components/galery/galery.component';
-import { DetailCardComponent } from "./components/detail-card/detail-card.component";
+import { DetailCardComponent } from './components/detail-card/detail-card.component';
 
 @Component({
   selector: 'app-vehicle-detail',

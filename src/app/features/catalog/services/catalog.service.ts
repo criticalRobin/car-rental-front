@@ -12,7 +12,7 @@ export class CatalogService {
   private readonly http: HttpClient = inject(HttpClient);
 
   getCatalogVehicles(): Observable<ICatalogVehicle[]> {
-    const catalogUrl: string = `${this.baseUrl}/vehicles`;
+    const catalogUrl: string = `${this.baseUrl}/vehicles/available`;
     const response: Observable<ICatalogVehicle[]> =
       this.http.get<ICatalogVehicle[]>(catalogUrl);
 

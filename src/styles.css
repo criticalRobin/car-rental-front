@@ -28,6 +28,15 @@ body {
 .submit-form-btn :active {
   background-color: transparent !important;
 }
+.cancel-form-btn {
+  color: #ffffff !important;
+  background-color: #ff5841 !important;
+  box-shadow: none !important;
+}
+.cancel-form-btn:hover {
+  background-color: #222222 !important;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
 .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused
   .mdc-notched-outline__leading,
 .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused

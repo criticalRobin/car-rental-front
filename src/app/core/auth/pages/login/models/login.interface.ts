@@ -6,6 +6,5 @@ export interface ILoginRequest {
 export interface ILoginResponse {
   token: string;
   role: string;
-  fullName: string;
   email: string;
 }

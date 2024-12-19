@@ -62,6 +62,7 @@ export class NavbarComponent implements OnInit {
     if (role === 'CLIENT') {
       items = [
         { title: 'Vehiculos', icon: 'directions_car', route: '/catalog' },
+        { title: 'Alquileres', icon: 'directions_car', route: '/rental-list' },
       ];
     }
 

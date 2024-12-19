@@ -65,7 +65,13 @@
       ${{ this.vehicle()?.dailyRate }}
     </span>
   </div>
-  <button mat-fab extended class="submit-form-btn mt-4" style="width: 100%">
+  <button
+    mat-fab
+    extended
+    class="submit-form-btn mt-4"
+    style="width: 100%"
+    (click)="this.redirectToBillingInfo()"
+  >
     <mat-icon>done_all</mat-icon>
     Alquilar
   </button>
