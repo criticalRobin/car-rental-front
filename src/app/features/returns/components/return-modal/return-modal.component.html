@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>Detalle de Devolución</h2>
+<mat-dialog-content>
+  <form [formGroup]="returnForm">
+    <mat-form-field appearance="fill">
+      <mat-label>ID de Renta</mat-label>
+      <input matInput formControlName="rentalId" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Placa</mat-label>
+      <input matInput formControlName="licensePlate" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Cliente</mat-label>
+      <input matInput formControlName="clientIdNumber"  />
+    </mat-form-field>
+
+    <div>
+      <h3>Daños</h3>
+      <div *ngFor="let damage of damages">
+        <mat-form-field appearance="fill" class="damage-select">
+          <mat-label>{{ damage.label }} ({{ damage.value | currency:'USD':'symbol' }})</mat-label>
+          <mat-select
+            [formControlName]="damage.controlName"
+            (selectionChange)="updateTotal()"
+          >
+            <mat-option [value]="false">Perfecto</mat-option>
+            <mat-option [value]="true">Dañado</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Días de Retraso</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="delayDays"
+        (input)="updateTotal()"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Total</mat-label>
+      <input matInput formControlName="total"  />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancelar</button>
+  <button mat-button color="primary" (click)="save()" [disabled]="returnForm.invalid">Guardar</button>
+</mat-dialog-actions>
