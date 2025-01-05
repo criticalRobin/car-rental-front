@@ -45,9 +45,9 @@ export class BillingInfoFormComponent {
 
   onSubmit(): void {
     if (this.billingInfoForm.valid) {
-      console.log('Form submitted');
       const formValue = this.billingInfoForm.value;
-      formValue.user = formValue.email;
+      const { email } = JSON.parse(localStorage.getItem('loggedUser')!);
+      formValue.user = email;
 
       this.formSubmitted.emit(formValue);
     }

@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { BillingInfoTableComponent } from './components/billing-info-table/billing-info-table.component';
 import { IBillingInfo } from './models/billing-info';
 import { ICatalogVehicle } from '@features/catalog/models/catalog-vehicle.interface';
+import { BillingInfoService } from './services/billing-info.service';
+import { ILoginResponse } from '@core/auth/pages/login/models/login.interface';
+import { NotificationService } from '@shared/services/notification.service';
+import { StateNotification } from '@shared/enums/state-notification';
 
 @Component({
   selector: 'app-billing-info',
@@ -13,33 +17,35 @@ import { ICatalogVehicle } from '@features/catalog/models/catalog-vehicle.interf
 })
 export class BillingInfoComponent {
   private readonly router: Router = inject(Router);
+  private readonly billingInfoSrv: BillingInfoService =
+    inject(BillingInfoService);
+  private readonly notificationSrv: NotificationService =
+    inject(NotificationService);
 
   protected vehicle: ICatalogVehicle | null = null;
-  protected billingInfo: IBillingInfo[] = [
-    {
-      id: 7,
-      idNumber: '1803268505',
-      firstName: 'Henry',
-      lastName: 'Cortez',
-      secondName: 'Steven',
-      secondLastName: 'Chaglla',
-      email: 'henrystevencortez@yahoo.es',
-      phone: '0998366772',
-    },
-    {
-      id: 8,
-      idNumber: '1850137918',
-      firstName: 'Matias',
-      lastName: 'Tite',
-      secondName: 'Ramiro',
-      secondLastName: 'Haro',
-      email: 'matiastite1@gmail.com',
-      phone: '0990938744',
-    },
-  ];
+  protected billingInfo: IBillingInfo[] = [];
 
   constructor() {
     this.vehicle =
       this.router.getCurrentNavigation()?.extras.state?.['vehicle'];
+    this.loadBillingInfo();
+  }
+
+  loadBillingInfo() {
+    const { email }: ILoginResponse = JSON.parse(
+      localStorage.getItem('loggedUser')!
+    );
+
+    this.billingInfoSrv.getBillingInfo(email).subscribe({
+      next: (billingInfo: IBillingInfo[]) => {
+        this.billingInfo = billingInfo;
+      },
+      error: () => {
+        this.notificationSrv.activateNotification(
+          'Error al cargar la información de facturación',
+          StateNotification.ERROR
+        );
+      },
+    });
   }
 }

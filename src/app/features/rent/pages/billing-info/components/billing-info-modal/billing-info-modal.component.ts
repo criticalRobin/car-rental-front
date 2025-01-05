@@ -12,6 +12,8 @@ import { BillingInfoService } from '../../services/billing-info.service';
 import { NotificationService } from '@shared/services/notification.service';
 import { StateNotification } from '@shared/enums/state-notification';
 import { MatIconModule } from '@angular/material/icon';
+import { ILoginResponse } from '@core/auth/pages/login/models/login.interface';
+import { IBillingInfo } from '../../models/billing-info';
 
 const MATERIAL = [
   MatButtonModule,
@@ -50,8 +52,9 @@ export class BillingInfoModalComponent {
     this.formComponent?.onSubmit();
   }
 
-  onFormSubmitted(formValue: any): void {
-    this.billingInfoService.createBillingInfo(formValue).subscribe({
+  onFormSubmitted(formData: IBillingInfo): void {
+    console.log('formData', formData);
+    this.billingInfoService.createBillingInfo(formData).subscribe({
       next: () => {
         this.dialogRef.close(true);
         this.notificationSrv.activateNotification(
