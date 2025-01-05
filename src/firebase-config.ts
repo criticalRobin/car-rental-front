@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDwctdFL5g4ftJFWGPiHPYdMZCabmfibRk",
-    authDomain: "alquiler-fa8a9.firebaseapp.com",
-    projectId: "alquiler-fa8a9",
-    storageBucket: "alquiler-fa8a9.firebasestorage.app",
-    messagingSenderId: "39610418447",
-    appId: "1:39610418447:web:5045a6dcb34779d6e1aa7a"
-};
+    apiKey: process.env['NG_APP_FIREBASE_API_KEY'] || '',
+    authDomain: process.env['NG_APP_FIREBASE_AUTH_DOMAIN'] || '',
+    projectId: process.env['NG_APP_FIREBASE_PROJECT_ID'] || '',
+    storageBucket: process.env['NG_APP_FIREBASE_STORAGE_BUCKET'] || '',
+    messagingSenderId: process.env['NG_APP_FIREBASE_MESSAGING_SENDER_ID'] || '',
+    appId: process.env['NG_APP_FIREBASE_APP_ID'] || '',
+  };  
 
 const app = initializeApp(firebaseConfig);
 
