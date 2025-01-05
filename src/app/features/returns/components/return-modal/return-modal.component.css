@@ -1,0 +1,84 @@
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.damage-select {
+  margin-bottom: 8px;
+}
+
+h3 {
+  margin: 16px 0 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #3f51b5;
+}
+
+.damage-select mat-label {
+  font-weight: 500;
+}
+
+mat-dialog-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #3f51b5;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-top: 1px solid #ddd;
+}
+
+mat-dialog-actions button {
+  margin-left: 8px;
+}
+
+mat-form-field input[type="number"] {
+  -moz-appearance: textfield; /* Elimina flechas en Firefox */
+}
+
+mat-form-field input[type="number"]::-webkit-inner-spin-button,
+mat-form-field input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Elimina flechas en Chrome/Safari */
+  margin: 0;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 5px; /* Ajusta el espacio inferior */
+}
+
+.total-field {
+  background-color: #f9f9f9;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.damage-select mat-option {
+  font-size: 14px;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 600px) {
+  mat-dialog-content {
+    padding: 8px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  mat-dialog-actions {
+    padding: 8px;
+  }
+}
