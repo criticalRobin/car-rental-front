@@ -86,8 +86,8 @@ export class RentalListTableComponent {
     const paymentData: IPayment = {
       rentalId: rental.rentalId,
       amount: rental.totalAmount,
-      successUrl: 'http://localhost:4200/rental-list',
-      cancelUrl: 'http://localhost:4200/catalog',
+      successUrl: 'https://car-rental-front-mu.vercel.app/rental-list',
+      cancelUrl: 'https://car-rental-front-mu.vercel.app/catalog',
       typePayment: 'RENTAL',
     };
 
