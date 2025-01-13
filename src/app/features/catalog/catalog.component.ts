@@ -95,7 +95,7 @@ export class CatalogComponent implements OnInit {
   }
 
   onBrandChange(brand: string): void {
-    this.filters.brand = brand;
+    this.filters.brand = brand.toUpperCase();
     this.applyFilters();
   }
 
