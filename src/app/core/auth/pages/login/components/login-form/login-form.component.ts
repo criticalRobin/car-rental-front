@@ -19,6 +19,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '@core/auth/services/auth.service';
+import { NotificationService } from '@shared/services/notification.service';
+import { StateNotification } from '@shared/enums/state-notification';
 
 const MATERIAL = [
   MatFormFieldModule,
@@ -39,6 +41,8 @@ export class LoginFormComponent {
   private readonly loginSrv: LoginService = inject(LoginService);
   private readonly authSrv: AuthService = inject(AuthService);
   private readonly router: Router = inject(Router);
+  private readonly notificationSrv: NotificationService =
+    inject(NotificationService);
 
   protected hide: WritableSignal<boolean> = signal(true);
   protected loginForm: FormGroup = new FormGroup({
@@ -67,9 +71,16 @@ export class LoginFormComponent {
         if (role === 'CLIENT') {
           this.router.navigate(['/catalog']);
         }
+        this.notificationSrv.activateNotification(
+          'Inicio de sesión exitoso',
+          StateNotification.SUCCESS
+        );
       },
       error: (err) => {
-        console.error(err);
+        this.notificationSrv.activateNotification(
+          'Error al iniciar sesión',
+          StateNotification.ERROR
+        );
       },
     });
   }
