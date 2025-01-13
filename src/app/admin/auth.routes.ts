@@ -27,4 +27,12 @@ export const authRoutesAdmin: Routes = [
           ),
           canActivate: [AuthGuard],
       },
+      {
+        path: 'maintenance', 
+        loadComponent: () =>
+          import('./pages/maintenance/maintenance.component').then(
+            (c) => c.MaintenanceComponent
+          ),
+          canActivate: [AuthGuard],
+      }
 ];
