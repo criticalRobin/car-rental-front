@@ -16,6 +16,7 @@ const MATERIAL = [MatIconModule, MatButtonModule];
 export class VehicleCardComponent {
   public vehicle: InputSignal<ICatalogVehicle> =
     input.required<ICatalogVehicle>();
+  public showItems: InputSignal<boolean> = input<boolean>(true);
 
   private readonly router: Router = inject(Router);
 
