@@ -153,8 +153,8 @@ export class ReturnModalComponent implements OnInit {
             const stripePaymentData = {
               rentalId,
               amount: total,
-              successUrl: 'http://localhost:4200/returns',
-              cancelUrl: 'http://localhost:4200/returns',
+              successUrl: 'https://car-rental-front-mu.vercel.app/returns',
+              cancelUrl: 'https://car-rental-front-mu.vercel.app/returns',
               typePayment: 'RETURN',
             };
   
